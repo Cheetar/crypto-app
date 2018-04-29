@@ -1,0 +1,4 @@
+/venv
+/src/.env
+db.sqlite3
+*.pyc
