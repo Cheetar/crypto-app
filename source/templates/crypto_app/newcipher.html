@@ -1,0 +1,18 @@
+
+<html>
+
+    <body>
+
+
+        Możesz tutaj utworzyć nowy szyfr <br>
+        <form target="/newcipher" method="post">
+            {% csrf_token %}
+           Nazwa: <input type="text" name="name"> <br>
+            <input type="radio" name="language" value="py"> Python <br>
+            <input type="radio" name="language" value="js"> Javascript <br>
+            <input type="radio" name="language" value="compiled"> Kompilwany <br>
+            <button>Utwórz</button>
+        </form>
+    </body>
+
+</html>

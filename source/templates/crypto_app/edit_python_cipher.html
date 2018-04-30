@@ -1,0 +1,98 @@
+{% load static %}
+<html>
+
+     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+        <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+        <script src="{% static "codemirror/lib/python.js" %}"></script>
+    </head>
+
+    <body>
+
+        Hej edytujesz wlaśnie pythonowy szyfr: {{cipher_name}}.
+        <input type="checkbox" {% ifequal ready True %}
+               checked
+        {% else %}
+        {% endifequal %} id="visible"> Czy szyft publicznie dostępny do zabawy? <br>
+
+        Funkcja szyfrująca:
+        <div style="border: 1px solid black; padding: 0px; width:60%">
+            <textarea id="enc" cols="100" rows="20" style="width:100%">
+                {{enc}}
+            </textarea>
+        </div>
+         <br>
+
+         Funkcja deszyftująca:
+        <div style="border: 1px solid black; padding: 0px; width:60%">
+            <textarea id="dec" cols="100" rows="20" style="width:100%">
+                {{dec}}
+            </textarea>
+        </div>
+         <br>
+
+        <button onclick="update();"> Zapisz Zmiany </button> <br> <br><br>
+
+        Testuj Szyfrowanie:<br>
+        Tekst: <input type="text" id="enc_text"> <br>
+        Klucz: <input type="text" id="enc_klucz"> <br>
+        <button onclick="ciphering_test();">Szyfruj</button> <br>
+        Wynik: <input type="text" id="enc_res"> <br> <br><br>
+
+        Testuj Deszyfrowanie:<br>
+        Szyfrogram: <input type="text" id="dec_text"> <br>
+        Klucz: <input type="text" id="dec_klucz"> <br>
+        <button onclick="deciphering_test();">Szyfruj</button> <br>
+        Wynik: <input type="text" id="dec_res"> <br> <br><br>
+
+         <script>
+          var editor_enc = CodeMirror.fromTextArea(document.getElementById("enc"), {
+        mode: {name: "python",
+               version: 3,
+               singleLineStringErrors: false},
+        lineNumbers: true,
+        indentUnit: 4,
+        tabMode: "space",
+        matchBrackets: true
+      });
+
+       var editor_dec = CodeMirror.fromTextArea(document.getElementById("dec"), {
+        mode: {name: "python",
+               version: 3,
+               singleLineStringErrors: false},
+        lineNumbers: true,
+        indentUnit: 4,
+        tabMode: "space",
+        matchBrackets: true
+      });
+
+      function update()
+            {
+                var enc_code = editor_enc.getValue();
+                var dec_code = editor_dec.getValue();
+                var visibility = document.getElementById("visible").checked;
+
+                $.ajax({
+                      url: window.location.href,
+                      method: "POST",
+                      context: document.body,
+                      data: { enc: enc_code, dec: dec_code, "vis": visibility }
+                    }).done(function() {
+                    });
+            }
+
+       function ciphering_test()
+       {
+       alert(1);
+       }
+
+       function deciphering_test()
+       {
+       alert(2);
+       }
+
+          </script>
+
+    </body>
+</html>

@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "3306:3306"
+
+  web:
+    build: source/
+    command: bash -c "source/manage.py makemigrations crypto_app && source/manage.py migrate && source/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - db:db
+

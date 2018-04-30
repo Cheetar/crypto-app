@@ -1,0 +1,23 @@
+
+<html>
+
+    <body>
+        {% ifequal logged_in False %}
+            Nie jesteś zalogowany<br>
+            Zarejestruj się <a href="/register">tutaj</a> <br>
+            Zaloguj się <a href="/login">tutaj</a>
+        {% else %}
+            Witaj {{nick}} <br>
+            Jesteś zalogowany <br>
+            Wyloguj sie <a href="/logout">tutaj</a>
+
+            Twoje szyfry:
+
+            Utwórz nowy szyfr <a href="/newcipher">tutaj</a>
+
+
+
+        {% endifequal %}
+    </body>
+
+</html>

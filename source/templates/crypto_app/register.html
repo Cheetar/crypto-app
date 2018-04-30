@@ -1,0 +1,26 @@
+
+<html>
+
+    <body>
+        Witaj Serockowiczu Daj nam twoje informacje a damy ci dostęp :P <br>
+
+        {% ifequal error 0 %}
+        {% else %}
+            {% ifequal error 1 %}
+                Nick jest już zajęty
+            {% else %}
+                Hasła się nie zgadzają
+            {% endifequal %}
+        {% endifequal %}
+
+        <form target="/register" method="post">
+            {% csrf_token %}
+            Nick: <input type="text" name="nick"> <br>
+            Hasło: <input type="password" name="password1"> <br>
+            Powtórz Hasło: <input type="password" name="password2"> <br>
+            <button>Rejestruj</button>
+        </form>
+
+    </body>
+
+</html>
