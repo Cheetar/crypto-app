@@ -8,6 +8,7 @@ services:
       - "3306:3306"
 
   web:
+    privileged: true
     build: source/
     command: bash -c "source/manage.py makemigrations crypto_app && source/manage.py migrate && source/manage.py runserver 0.0.0.0:8000"
     volumes:
