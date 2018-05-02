@@ -6,7 +6,7 @@
           <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
           <meta http-equiv="pragma" content="no-cache" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     </head>
     <body>
@@ -30,15 +30,15 @@
         {% else %}
         Program Szyfrujący: <br>
         {% endifequal %}
-        <div style="border: 1px solid black; padding: 0px;">
+
             <pre><code>{{enc}}</code></pre>
-        </div>
+
 
         {% ifequal only_one False %}
         Funkcja Deszyfrująca: <br>
-        <div style="border: 1px solid black; padding: 0px;">
+
             <pre><code>{{dec}}</code></pre>
-        </div>
+
         {% endifequal %}
 
     <script>
@@ -101,6 +101,7 @@
         });
 
         hljs.initHighlightingOnLoad();
+
     </script>
 
     </body>

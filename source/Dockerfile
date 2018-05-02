@@ -4,7 +4,6 @@ RUN mkdir /code
 WORKDIR /code
 ADD requirements.txt /code/
 RUN apt-get update
-RUN yes | apt-get install build-essential libcap-dev
+RUN apt-get -y install build-essential libcap-dev gcc
 RUN pip install -r requirements.txt
 ADD ./ /code/
-

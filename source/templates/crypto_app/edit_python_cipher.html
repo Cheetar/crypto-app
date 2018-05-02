@@ -4,11 +4,12 @@
      <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
          <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+         <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
         <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
         <script src="{% static "codemirror/lib/python.js" %}"></script>
     </head>
 
-    <body onpageshow="document.refresh();">
+    <body>
 
         Hej edytujesz wlaśnie pythonowy szyfr: {{cipher_name}}.
         <input type="checkbox" {% ifequal ready True %}
@@ -51,8 +52,10 @@
         lineWrapping: true,
         indentUnit: 4,
         tabMode: "space",
-        matchBrackets: true
-      });
+        matchBrackets: true,
+        styleActiveLine: true,
+        theme: "monokai"
+        });
 
        var editor_dec = CodeMirror.fromTextArea(document.getElementById("dec"), {
         mode: {name: "python",
@@ -62,7 +65,9 @@
         lineWrapping: true,
         indentUnit: 4,
         tabMode: "space",
-        matchBrackets: true
+        matchBrackets: true,
+        styleActiveLine: true,
+        theme: "monokai"
       });
 
       var enc_header = "def enc(text, key):";

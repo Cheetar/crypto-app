@@ -6,20 +6,26 @@
          <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
          <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
         <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-        <script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
+         <script src="{% static "codemirror/mode/javascript/javascript.js" %}"></script>
     </head>
 
     <body>
 
-        Hej edytujesz wlaśnie szyfr w C++/C: {{cipher_name}}.
+        Hej edytujesz wlaśnie javascriptowy szyfr: {{cipher_name}}.
         <input type="checkbox" {% ifequal ready True %}
                checked
         {% else %}
         {% endifequal %} id="visible" onclick="synchronize();"> Czy szyft publicznie dostępny do zabawy? <br>
 
-        Program Code:
+        Funkcja szyfrująca:
         <div style="border: 1px solid black; padding: 0px; width:60%" oninput="synchronize();" onkeyup="synchronize();">
-            <textarea id="code" cols="100" rows="20" style="width:100%">{{code}}</textarea>
+            <textarea id="enc" cols="100" rows="20" style="width:100%">{{enc}}</textarea>
+        </div>
+         <br>
+
+         Funkcja deszyftująca:
+        <div style="border: 1px solid black; padding: 0px; width:60%" oninput="synchronize();" onkeyup="synchronize();">
+            <textarea id="dec" cols="100" rows="20" style="width:100%">{{dec}}</textarea>
         </div>
          <br>
 
@@ -38,31 +44,62 @@
         <div id="dec_err_container" style="display: none;"> Błędy: <div style="color:red; white-space: pre; border: 1px solid black; padding: 0px;" id="dec_err"></div></div> <br> <br><br>
 
          <script>
-          var editor_code = CodeMirror.fromTextArea(document.getElementById("code"), {
+          var editor_enc = CodeMirror.fromTextArea(document.getElementById("enc"), {
+        mode: "javascript",
         lineNumbers: true,
-        matchBrackets: true,
-        mode: "text/x-c++src",
         lineWrapping: true,
         indentUnit: 4,
         tabMode: "space",
+        matchBrackets: true,
         styleActiveLine: true,
-        theme: "monokai"});
+        theme: "monokai"
+        });
 
-      var prev_code = editor_code.getValue();
+       var editor_dec = CodeMirror.fromTextArea(document.getElementById("dec"), {
+        mode: "javascript",
+        lineNumbers: true,
+        lineWrapping: true,
+        indentUnit: 4,
+        tabMode: "space",
+        matchBrackets: true,
+        styleActiveLine: true,
+        theme: "monokai"
+      });
+
+      var enc_header = "var enc = (text, key) =>";
+      var dec_header = "var dec = (cipher, key) =>";
+      var prev_enc = editor_enc.getValue();
+      var prev_dec = editor_dec.getValue();
       var prev_visibility = document.getElementById("visible").checked;
       function synchronize()
             {
-                var enc_code = editor_code.getValue()
+                var enc_code = editor_enc.getValue().trim().split("\n");
+                var cur_enc_header = enc_code[0];
+                enc_code[0] = enc_header;
+                enc_code = enc_code.join("\n");
+
+                if(cur_enc_header !== enc_header)
+                    editor_enc.setValue(enc_code);
+
+                var dec_code = editor_dec.getValue().trim().trim().split("\n");
+                var cur_dec_header = dec_code[0];
+                dec_code[0] = dec_header;
+                dec_code = dec_code.join("\n");
+
+                if(cur_dec_header !== dec_header)
+                    editor_dec.setValue(dec_code);
+
                 var visibility = document.getElementById("visible").checked;
 
-                if(prev_code !== enc_code || prev_visibility !== visibility)
+                if(prev_enc !== enc_code || prev_dec !== dec_code || prev_visibility !== visibility)
                 {
-                    prev_code = enc_code;
+                    prev_enc = enc_code;
+                    prev_dec = dec_code;
                     $.ajax({
                           url: window.location.href,
                           method: "POST",
                           context: document.body,
-                          data: { "code": enc_code, "vis": visibility }
+                          data: { enc: enc_code, dec: dec_code, "vis": visibility }
                         }).done(function() {
                         });
                 }
@@ -73,7 +110,7 @@
             var id = {{id}};
             var key = $("#enc_key").val();
               $.ajax({
-                      url: "/execute_cpp_cipher/"+id,
+                      url: "/execute_js_cipher/"+id,
                       method: "POST",
                       context: document.body,
                       dataType: "json",
@@ -100,7 +137,7 @@
        {
             var id = {{id}};
               $.ajax({
-                      url: "/execute_cpp_cipher/"+id,
+                      url: "/execute_js_cipher/"+id,
                       method: "POST",
                       context: document.body,
                       dataType: "json",
