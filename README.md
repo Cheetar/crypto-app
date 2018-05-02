@@ -1,2 +1,1 @@
-# crypto-app
-Django based app for crypto ciphers strength analysis
+Django aplication for cryptography workshops
