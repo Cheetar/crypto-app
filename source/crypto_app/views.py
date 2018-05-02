@@ -352,9 +352,9 @@ def execute_python_cipher(request, cipher_id):
 
                 w.write(json.dumps({"res": "", "error": err}).encode('utf-8'))
             except Exception as e:
-                w.write(json.dumps({"res": "", "error": "Your code broke something:\n" + str(e)}).encode('utf-8'))
+                w.write(json.dumps({"res": "", "error": "Your code broke something:\n" + str(e)+"\n\n\n"+traceback.format_exc()}).encode('utf-8'))
 
-            signal.alarm(10)
+            signal.alarm(0)
             w.flush()
             return 0
         else:

@@ -1,5 +1,7 @@
 from django.db import models
 import uuid
+import numpy
+import gmpy2
 
 # The list of symbols that are included by default in the generated
 # function's environment
@@ -10,7 +12,7 @@ SAFE_SYMBOLS = ["list", "dict", "tuple", "set", "long", "float", "object",
                 "hash", "hex", "int", "isinstance", "issubclass", "len",
                 "map", "filter", "max", "min", "oct", "chr", "ord", "range",
                 "reduce", "repr", "str", "type", "zip", "xrange", "None",
-                "Exception", "KeyboardInterrupt", "class"]
+                "Exception", "KeyboardInterrupt", "class", "import", "__import__", "numpy", "gmpy2", "bin"]
 # Also add the standard exceptions
 __bi = __builtins__
 if type(__bi) is not dict:
