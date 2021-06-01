@@ -7,5 +7,5 @@ fig==1.0.1
 requests==2.4.3
 six==1.8.0
 texttable==0.8.1
-urllib3==1.9.1 # since this is mentioned in the backtrace
+urllib3==1.26.5 # since this is mentioned in the backtrace
 websocket-client==0.11.0
